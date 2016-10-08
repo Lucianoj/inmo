@@ -12,6 +12,9 @@ use Yii;
  * @property double $latitud
  * @property double $longitud
  * @property integer $tipo_inmueble_id
+ * @property string $direccion
+ * @property integer $cantidad_habitaciones
+ * @property integer $tiene_garage
  *
  * @property Aviso[] $avisos
  * @property Imagen[] $imagens
@@ -33,10 +36,11 @@ class Inmueble extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'tipo_inmueble_id'], 'required'],
+            [['nombre', 'tipo_inmueble_id', 'direccion', 'cantidad_habitaciones', 'tiene_garage'], 'required'],
             [['latitud', 'longitud'], 'number'],
-            [['tipo_inmueble_id'], 'integer'],
+            [['tipo_inmueble_id', 'cantidad_habitaciones', 'tiene_garage'], 'integer'],
             [['nombre'], 'string', 'max' => 45],
+            [['direccion'], 'string', 'max' => 255],
             [['tipo_inmueble_id'], 'exist', 'skipOnError' => true, 'targetClass' => TipoInmueble::className(), 'targetAttribute' => ['tipo_inmueble_id' => 'id']],
         ];
     }
@@ -52,6 +56,9 @@ class Inmueble extends \yii\db\ActiveRecord
             'latitud' => 'Latitud',
             'longitud' => 'Longitud',
             'tipo_inmueble_id' => 'Tipo Inmueble ID',
+            'direccion' => 'Direccion',
+            'cantidad_habitaciones' => 'Cantidad Habitaciones',
+            'tiene_garage' => 'Tiene Garage',
         ];
     }
 

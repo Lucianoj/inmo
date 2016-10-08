@@ -29,6 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'latitud',
             'longitud',
             'tipo_inmueble_id',
+            // 'direccion',
+            // 'cantidad_habitaciones',
+            // 'tiene_garage',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

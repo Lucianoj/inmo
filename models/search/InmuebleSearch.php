@@ -18,8 +18,8 @@ class InmuebleSearch extends Inmueble
     public function rules()
     {
         return [
-            [['id', 'tipo_inmueble_id'], 'integer'],
-            [['nombre'], 'safe'],
+            [['id', 'tipo_inmueble_id', 'cantidad_habitaciones', 'tiene_garage'], 'integer'],
+            [['nombre', 'direccion'], 'safe'],
             [['latitud', 'longitud'], 'number'],
         ];
     }
@@ -64,9 +64,12 @@ class InmuebleSearch extends Inmueble
             'latitud' => $this->latitud,
             'longitud' => $this->longitud,
             'tipo_inmueble_id' => $this->tipo_inmueble_id,
+            'cantidad_habitaciones' => $this->cantidad_habitaciones,
+            'tiene_garage' => $this->tiene_garage,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
+        $query->andFilterWhere(['like', 'nombre', $this->nombre])
+            ->andFilterWhere(['like', 'direccion', $this->direccion]);
 
         return $dataProvider;
     }

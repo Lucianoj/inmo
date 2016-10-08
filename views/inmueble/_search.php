@@ -25,6 +25,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'tipo_inmueble_id') ?>
 
+    <?php // echo $form->field($model, 'direccion') ?>
+
+    <?php // echo $form->field($model, 'cantidad_habitaciones') ?>
+
+    <?php // echo $form->field($model, 'tiene_garage') ?>
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
