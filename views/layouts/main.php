@@ -44,8 +44,6 @@ $es_root = !$esInvitado && PermisosHelpers::requerirRol('root');
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
-                //['label' => 'Inicio', 'url' => ['/site/index']],
-//                ['label' => 'Contacto', 'url' => ['/site/contact']],
                 ['label' => 'Alta', 'url' => ['/site/signup']],
                 ['label' => 'Ingresar', 'url' => ['/site/login']]
             ],
@@ -57,8 +55,8 @@ $es_root = !$esInvitado && PermisosHelpers::requerirRol('root');
             'items' => [
                 ['label' => 'Inicio', 'url' => ['/site/index']],
                 ['label' => 'Usuarios', 'url' => ['/user/index']],
-                ['label' => 'Avisos', 'url' => ['/avisos/index']],
-                ['label' => 'Inmuebles', 'url' => ['/inmuebles/index']],
+                ['label' => 'Avisos', 'url' => ['/aviso/index']],
+                ['label' => 'Inmuebles', 'url' => ['/inmueble/index']],
                 [
                     'label' => 'Salir ('.Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
