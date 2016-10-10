@@ -52,14 +52,18 @@ class Inmueble extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'nombre' => 'Nombre',
+            'nombre' => 'Título',
             'latitud' => 'Latitud',
             'longitud' => 'Longitud',
-            'tipo_inmueble_id' => 'Tipo Inmueble ID',
-            'direccion' => 'Direccion',
-            'cantidad_habitaciones' => 'Cantidad Habitaciones',
-            'tiene_garage' => 'Tiene Garage',
+            'tipo_inmueble_id' => 'Tipo de Inmueble',
+            'direccion' => 'Dirección',
+            'cantidad_habitaciones' => 'Cantidad de Habitaciones',
+            'tiene_garage' => 'Tiene Garage?',
         ];
+    }
+
+    public function attributes(){
+        return array_merge(parent::attributes(), ['tipo.nombre']);
     }
 
     /**
@@ -84,5 +88,13 @@ class Inmueble extends \yii\db\ActiveRecord
     public function getTipoInmueble()
     {
         return $this->hasOne(TipoInmueble::className(), ['id' => 'tipo_inmueble_id']);
+    }
+
+    /**
+     * @return String
+     */
+    public function getTipoNombre()
+    {
+        return $this->tipoInmueble->nombre;
     }
 }

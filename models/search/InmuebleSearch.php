@@ -19,7 +19,7 @@ class InmuebleSearch extends Inmueble
     {
         return [
             [['id', 'tipo_inmueble_id', 'cantidad_habitaciones', 'tiene_garage'], 'integer'],
-            [['nombre', 'direccion'], 'safe'],
+            [['nombre', 'direccion', 'tipo.nombre'], 'safe'],
             [['latitud', 'longitud'], 'number'],
         ];
     }
@@ -50,6 +50,17 @@ class InmuebleSearch extends Inmueble
             'query' => $query,
         ]);
 
+        $query->innerJoin(['tipo_inmueble tipo'], 'inmueble.tipo_inmueble_id = tipo.id');
+
+        $dataProvider->setSort([
+            'attributes'=>[
+                'tipo.nombre',
+                'nombre',
+                'cantidad_habitaciones',
+                'tiene_garage',
+            ]
+        ]);
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -57,6 +68,7 @@ class InmuebleSearch extends Inmueble
             // $query->where('0=1');
             return $dataProvider;
         }
+        $query->andFilterWhere(['like', 'tipo.nombre', $this->getAttribute('tipo.nombre')]);
 
         // grid filtering conditions
         $query->andFilterWhere([
