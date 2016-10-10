@@ -1,0 +1,16 @@
+POST https://maps.googleapis.com/maps/api/place/add/json?key=AIzaSyC5nmMl8WaACnrlO_Y1o-wyi7LPp5VHoBw HTTP/1.1
+Host: maps.googleapis.com
+
+{
+  "location": {
+    "lat": -38.954892,
+    "lng": -68.099397
+  },
+  "accuracy": 50,
+  "name": "Pepito Inmobiliaria",
+  "phone_number": "(0299) 4441122",
+  "address": "San Martin 2900",
+  "types": ["other"],
+  "website": "http://www.google.com.ar/",
+  "language": "es-AR"
+}
