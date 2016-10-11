@@ -13,7 +13,7 @@ nbproject
 Thumbs.db
 
 # composer vendor dir
-/vendor
+#/vendor
 
 # composer itself is not needed
 composer.phar
@@ -25,3 +25,12 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+old_composer.lock
+runtime/
+#vendor/ezyang/htmlpurifier/plugins/phorum/htmlpurifier/
+#vendor/guzzlehttp/guzzle/build/
+#vendor/guzzlehttp/guzzle/docs/
+#vendor/guzzlehttp/guzzle/tests/
+#vendor/phpoffice/phpexcel/Examples/templates/
+#vendor/yiisoft/yii2/console/runtime/
+#web/img/
