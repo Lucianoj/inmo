@@ -16,14 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Modificar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?php
-//        echo Html::a('Delete', ['delete', 'id' => $model->id], [
-//            'class' => 'btn btn-danger',
-//            'data' => [
-//                'confirm' => 'Are you sure you want to delete this item?',
-//                'method' => 'post',
-//            ],
-//        ]) ?>
     </p>
     <div class="row">
         <div class="panel panel-default">
@@ -32,10 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= DetailView::widget([
                     'model' => $model,
                     'attributes' => [
-            //            'id',
-//                        'nombre',
-            //            'latitud',
-            //            'longitud',
                         'tipoNombre:html:Tipo',
                         'direccion',
                         'cantidad_habitaciones',
@@ -85,8 +73,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             </form>
                         </div>
                         <div class="row">
-                            <div class="col col-lg-2"><br>
-                            </div>
                             <div class="col col-lg-8"><br>
                                 <div class="panel">
                                     <div class="panel panel-body panel-info">
@@ -94,28 +80,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </div>
                                 </div>
                             </div>
-                            <div class="col col-lg-2">
+                            <div class="col col-lg-4"><br><br>
                                 <input id="lat" type="hidden" value="<?=$model->latitud?>">
                                 <input id="long" type="hidden" value="<?=$model->longitud?>">
-                                <div id="message"></div>
+                                <div id='datos'></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             </div>
-
-<!-- Importar jQuery -->
-<!--<script type="text/javascript" src="../libs/js/jquery-3.min.js"></script>-->
-
-<!-- Importar bootstrap JS -->
-<!--<script type="text/javascript" src="../libs/js/bootstrap.min.js"></script>-->
-
-<!-- Importar API Google-Places JS -->
-<!--        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyC5nmMl8WaACnrlO_Y1o-wyi7LPp5VHoBw"></script>-->
-
-<!--        <script type="text/javascript" src="../../web/addSiteApi.json"></script>-->
-
         </div>
     </div>
 </div>
@@ -128,6 +102,7 @@ $url = \Yii::$app->getUrlManager()->createUrl('inmueble/get-data-google-maps');
         var latitud = jQuery('#lat').val();
         var longitud = jQuery('#long').val();
         var ubicacion = new google.maps.LatLng(latitud, longitud);
+        var markers = [];
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 8,
             center: ubicacion
@@ -143,12 +118,14 @@ $url = \Yii::$app->getUrlManager()->createUrl('inmueble/get-data-google-maps');
         });
 
         document.getElementById('enviar').addEventListener('click', function() {
-            geocodeAddress(geocoder, map);
+            insertarUbicaciones(map, latitud, longitud, markers);
         });
     }
 
-    function marcarMapa(data, map) {
+    function marcarMapa(data, map, markers) {
         var info = $.parseJSON(data);
+        var mostrar = "";
+
         for (var i = 0; i < info.results.length; i++) {
             var marker = new google.maps.Marker({
                 map: map,
@@ -156,23 +133,23 @@ $url = \Yii::$app->getUrlManager()->createUrl('inmueble/get-data-google-maps');
                 label: info.results[i].name,
                 icon: info.results[i].icon,
             });
+            markers.push(marker);
 
+            var j = i + 1;
+            mostrar += '<h5 class=\'text-info\'>' + j + ' ) ' + info.results[i].name + '</h5>';
+            mostrar += '<h6 class=\'text-muted\'>' + info.results[i].vicinity + '</h6>';
         }
+            jQuery('#datos').html(mostrar);
     }
 
-    function geocodeAddress(geocoder, map) {
-        var latitud = jQuery('#lat').val();
-        var longitud = jQuery('#long').val();
-        var ubicacion = new google.maps.LatLng(latitud, longitud);
+    function insertarUbicaciones(map, lat, lng, markers) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
         var type = jQuery('#type').val();
         var radio = jQuery('#radio').val();
-        var marker = new google.maps.Marker({
-            map: map,
-            position: ubicacion
-        });
-
         var data = {
-            url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitud + ',' + longitud + '&radius=' + radio + '&type=' + type + '&name=cruise&key=AIzaSyCD5TwT3vXLfYEv9WD-kOcEg7YQLcncsls',
+            url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + lat + ',' + lng + '&radius=' + radio + '&type=' + type + '&name=cruise&key=AIzaSyCD5TwT3vXLfYEv9WD-kOcEg7YQLcncsls',
         }
 
         jQuery.ajax({
@@ -180,8 +157,7 @@ $url = \Yii::$app->getUrlManager()->createUrl('inmueble/get-data-google-maps');
             data : data,
             url: '<?=$url?>',
             success:  function(data) {
-                marcarMapa(data, map);
-
+                marcarMapa(data, map, markers);
             },
             error: function(e) {
                 console.log('error:' + e.message);
