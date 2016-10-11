@@ -8,6 +8,7 @@ use app\models\search\InmuebleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Imagen;
 
 /**
  * InmuebleController implements the CRUD actions for Inmueble model.
@@ -120,5 +121,21 @@ class InmuebleController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionImagen($id)
+    {
+        if (($modelImagen = Imagen::findOne($id)) !== null) {
+            return Html::image($modelImagen->ruta, '', ['width' => '100', 'height' => '100']);
+        }
+    }
+
+    public function actionGetDataGoogleMaps($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        echo curl_exec($ch);
     }
 }

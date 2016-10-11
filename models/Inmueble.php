@@ -97,4 +97,14 @@ class Inmueble extends \yii\db\ActiveRecord
     {
         return $this->tipoInmueble->nombre;
     }
+
+    /**
+     * @return String
+     */
+    public function getTieneGarageSiNo()
+    {
+        return $this->tiene_garage?'Sí':'No';
+    }
+
+
 }

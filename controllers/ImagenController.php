@@ -121,4 +121,11 @@ class ImagenController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+//    public function renderImagen($id)
+//    {
+//        if (($model = Imagen::findOne($id)) !== null) {
+//            return CHtml::image($model->ruta,'', ['width'=>'100','height'=>'100']);
+//        }
+//    }
 }
